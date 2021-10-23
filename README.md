@@ -1,7 +1,14 @@
+
+
 ## CODING CHALLENGE 
 ### Adidas
 
-#### Repository
+## Features
+* Eureka Dashboard
+* Caching
+* Hiding secure services behind cloud gateway
+
+### Repository
 
 #### Consist of 4 Micro Services
 * Public Service
@@ -11,7 +18,7 @@
 
 
 Api Doucmeation can be found in
-[Documentation!](https://ajz007.stoplight.io/studio/adidas)
+[Documentation!](https://ajz007.stoplight.io/docs/adidas)
 
 ## Architecture
 
