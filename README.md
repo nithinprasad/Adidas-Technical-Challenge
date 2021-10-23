@@ -13,9 +13,6 @@
 Api Doucmeation can be found in
 [Documentation!](https://ajz007.stoplight.io/studio/adidas)
 
-### Flow Diagram
-![Diagram](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/Architecture.png?raw=true)
-
 ## Service Details
 
 ### Public Service
@@ -216,3 +213,9 @@ Can stop the container using
 ```python
 docker-compose -f docker-compose.yaml down
 ```
+### Eureka Dasboard
+Once the services are up we can verify the same using
+```python
+{hosname}:{gatewatip}/registry
+```
+![Diagram](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/eureka.png?raw=true)
