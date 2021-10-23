@@ -1,0 +1,27 @@
+ version: '3'
+ services:
+  adidas-eureka-service:
+     image: nithinprasad549/adidas-eureka-service:latest
+     #ports:
+      #- 3001:8761
+  adidas-public-service:
+    image: nithinprasad549/adidas-public-service:latest
+    ports:
+     - 3000:8989
+    environment:
+     - EUREKA_HOST=adidas-eureka-service
+     - EUREKA_PORT=8761
+  adidas-subscription-service:
+    image: nithinprasad549/adidas-subscription-service:latest
+    #ports:
+     #- 3002:7777
+    environment:
+     - EUREKA_HOST=adidas-eureka-service
+     - EUREKA_PORT=8761
+  adidas-email-service:
+    image: nithinprasad549/adidas-email-service:latest
+    #ports:
+     #- 3003:8888
+    environment:
+     - EUREKA_HOST=adidas-eureka-service
+     - EUREKA_PORT=8761

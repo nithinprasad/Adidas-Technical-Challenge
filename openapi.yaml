@@ -1,0 +1,387 @@
+swagger: '2.0'
+info:
+  description: Adidas Subscription Documenation
+  version: '1.0'
+  title: Api Documentation
+  contact:
+    name: Nithin Prasad
+    url: 'http://nithinprasad.githib.io/'
+    email: nithinprasad549@yahoo.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+  termsOfService: 'http://nithinprasad.githib.io/'
+basePath: /
+tags:
+  - name: subscription-controller
+paths:
+  /subscriptions/all:
+    get:
+      summary: Find the list of all subscriptions
+      operationId: getall
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subscription'
+          examples:
+            Response:
+              value:
+                - _id: 700dd983-e8e9-4abf-be81-8ce9b110b5ff
+                  firstName: Nithin
+                  email: abc.xyz@gmail.com
+                  gender: MALE
+                  dateOfBirth: '2020-11-11'
+                  haveConsent: true
+                  newsLetterId: '123'
+                - _id: c6518760-325a-4676-9cd8-76b6777cde66
+                  firstName: Prasad
+                  email: abc.xyz@gmail.com
+                  gender: MALE
+                  dateOfBirth: '2020-11-11'
+                  haveConsent: true
+                  newsLetterId: '456'
+      description: Get All Susbcriptions created
+      tags:
+        - subscription
+  /subscriptions/subscribe:
+    post:
+      summary: Create a new subscription
+      operationId: subscribe
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: subscription
+          description: subscription
+          required: true
+          schema:
+            $ref: '#/definitions/Subscription'
+          x-examples:
+            Example1:
+              value:
+                firstName: Nithin
+                email: abc.xyz@gmail.com
+                gender: MALE
+                dateOfBirth: '2020-11-11'
+                newsLetterId: '123'
+                haveConsent: true
+      responses:
+        '201':
+          description: Created
+          examples:
+            Response:
+              value:
+                _id: 700dd983-e8e9-4abf-be81-8ce9b110b5ff
+                firstName: Nithin
+                email: abc.xyz@gmail.com
+                gender: MALE
+                dateOfBirth: '2020-11-11'
+                haveConsent: true
+                newsLetterId: '123'
+          schema:
+            $ref: '#/definitions/Subscription'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            description: ''
+            minItems: 1
+            uniqueItems: true
+            x-examples:
+              example-1:
+                - code: NotEmpty
+                  message: must not be empty
+                  field: newsLetterId
+                  value: null
+                - code: Past
+                  message: date of birth must be less than today
+                  field: dateOfBirth
+                  value: '2021-11-11'
+            items:
+              $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                - code: NotEmpty
+                  message: must not be empty
+                  field: newsLetterId
+                  value: null
+                - code: Past
+                  message: date of birth must be less than today
+                  field: dateOfBirth
+                  value: '2021-11-11'
+      description: Endpoint to add a new subscription
+      tags:
+        - subscription
+  '/subscriptions/{id}':
+    get:
+      summary: Find Details of a subscription
+      operationId: findSubscriptionUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Subscription'
+          examples:
+            example-1:
+              value:
+                _id: c6518760-325a-4676-9cd8-76b6777cde66
+                firstName: Prasad
+                email: abc.xyz@gmail.com
+                gender: MALE
+                dateOfBirth: '2020-11-11'
+                haveConsent: true
+                newsLetterId: '456'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                - code: '404'
+                  message: Resource Not Found
+                  field: null
+                  value: null
+      tags:
+        - subscription
+    delete:
+      summary: Delete an existing subscription
+      operationId: cancelUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            x-nullable: true
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+      tags:
+        - subscription
+  /email/notify:
+    post:
+      summary: Email notification service
+      operationId: post-email-notify
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+          examples:
+            example-1:
+              value: Email Sent succcessfully
+      tags:
+        - email
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Subscription'
+          x-examples:
+            example-1:
+              value:
+                _id: string
+                dateOfBirth: '2012-12-12'
+                email: string
+                firstName: string
+                gender: FEMALE
+                haveConsent: true
+                newsLetterId: string
+definitions:
+  ModelAndView:
+    type: object
+    properties:
+      empty:
+        type: boolean
+      model:
+        type: object
+      modelMap:
+        type: object
+        additionalProperties:
+          type: object
+      reference:
+        type: boolean
+      status:
+        type: string
+        enum:
+          - ACCEPTED
+          - ALREADY_REPORTED
+          - BAD_GATEWAY
+          - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
+          - CHECKPOINT
+          - CONFLICT
+          - CONTINUE
+          - CREATED
+          - DESTINATION_LOCKED
+          - EXPECTATION_FAILED
+          - FAILED_DEPENDENCY
+          - FORBIDDEN
+          - FOUND
+          - GATEWAY_TIMEOUT
+          - GONE
+          - HTTP_VERSION_NOT_SUPPORTED
+          - IM_USED
+          - INSUFFICIENT_SPACE_ON_RESOURCE
+          - INSUFFICIENT_STORAGE
+          - INTERNAL_SERVER_ERROR
+          - I_AM_A_TEAPOT
+          - LENGTH_REQUIRED
+          - LOCKED
+          - LOOP_DETECTED
+          - METHOD_FAILURE
+          - METHOD_NOT_ALLOWED
+          - MOVED_PERMANENTLY
+          - MOVED_TEMPORARILY
+          - MULTIPLE_CHOICES
+          - MULTI_STATUS
+          - NETWORK_AUTHENTICATION_REQUIRED
+          - NON_AUTHORITATIVE_INFORMATION
+          - NOT_ACCEPTABLE
+          - NOT_EXTENDED
+          - NOT_FOUND
+          - NOT_IMPLEMENTED
+          - NOT_MODIFIED
+          - NO_CONTENT
+          - OK
+          - PARTIAL_CONTENT
+          - PAYLOAD_TOO_LARGE
+          - PAYMENT_REQUIRED
+          - PERMANENT_REDIRECT
+          - PRECONDITION_FAILED
+          - PRECONDITION_REQUIRED
+          - PROCESSING
+          - PROXY_AUTHENTICATION_REQUIRED
+          - REQUESTED_RANGE_NOT_SATISFIABLE
+          - REQUEST_ENTITY_TOO_LARGE
+          - REQUEST_HEADER_FIELDS_TOO_LARGE
+          - REQUEST_TIMEOUT
+          - REQUEST_URI_TOO_LONG
+          - RESET_CONTENT
+          - SEE_OTHER
+          - SERVICE_UNAVAILABLE
+          - SWITCHING_PROTOCOLS
+          - TEMPORARY_REDIRECT
+          - TOO_EARLY
+          - TOO_MANY_REQUESTS
+          - UNAUTHORIZED
+          - UNAVAILABLE_FOR_LEGAL_REASONS
+          - UNPROCESSABLE_ENTITY
+          - UNSUPPORTED_MEDIA_TYPE
+          - UPGRADE_REQUIRED
+          - URI_TOO_LONG
+          - USE_PROXY
+          - VARIANT_ALSO_NEGOTIATES
+      view:
+        $ref: '#/definitions/View'
+      viewName:
+        type: string
+    title: ModelAndView
+  Subscription:
+    type: object
+    title: Subscription
+    x-examples:
+      example-1:
+        _id: string
+        dateOfBirth: '2019-08-24'
+        email: string
+        firstName: string
+        gender: FEMALE
+        haveConsent: true
+        newsLetterId: string
+    properties:
+      _id:
+        type: string
+      dateOfBirth:
+        type: string
+        format: date
+        example: '2012-12-12'
+        pattern: yyyy-MM-dd
+      email:
+        type: string
+        minLength: 0
+        maxLength: 70
+      firstName:
+        type: string
+        maxLength: 70
+      gender:
+        type: string
+        enum:
+          - FEMALE
+          - MALE
+          - NA
+        maxLength: 70
+      haveConsent:
+        type: boolean
+      newsLetterId:
+        type: string
+        minLength: 0
+        maxLength: 70
+    required:
+      - dateOfBirth
+      - email
+      - haveConsent
+      - newsLetterId
+  View:
+    type: object
+    properties:
+      contentType:
+        type: string
+    title: View
+  Error:
+    description: Sample error model
+    type: object
+    x-examples:
+      example-1:
+        code: NotEmpty
+        message: must not be empty
+        field: newsLetterId
+        value: null
+      example-2:
+        code: Past
+        message: date of birth must be less than today
+        field: dateOfBirth
+        value: '2021-11-11'
+    properties:
+      code:
+        type: string
+        minLength: 1
+      message:
+        type: string
+        minLength: 1
+      field:
+        type: string
+        minLength: 1
+      value: {}
+    required:
+      - code
+      - message
+securityDefinitions: {}
