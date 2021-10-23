@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.prasad.nithin.subscription.entity.Subscription;
 
@@ -36,11 +37,12 @@ public class RestClient {
 
 	@Async
 	public ResponseEntity<String> notifyEmail(Subscription subscription) {
+		StringBuffer br=new StringBuffer(EMAIL_GATEWAY_URL).append("/email").append("/notify");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<String> entity = new HttpEntity<String>(subscription.toString(), headers);
-		log.info("Post {} to URI {}", subscription, EMAIL_GATEWAY_URL);
-		ResponseEntity<String> responseEntity = restTemplate.postForEntity(EMAIL_GATEWAY_URL, entity, String.class);
+		log.info("Post {} to URI {}", subscription, br.toString());
+		ResponseEntity<String> responseEntity = restTemplate.postForEntity(br.toString(), entity, String.class);
 		log.info("Response {}", responseEntity);
 		return responseEntity;
 
