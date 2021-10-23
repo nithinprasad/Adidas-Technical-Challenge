@@ -20,6 +20,9 @@
 Api Doucmeation can be found in
 [Documentation!](https://ajz007.stoplight.io/docs/adidas)
 
+YAML File can be downloaded from
+[Open Api Spec](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/openapi.yaml?raw=true)
+
 ## Architecture
 
 ![Diagram](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/Architecture.png?raw=true)
