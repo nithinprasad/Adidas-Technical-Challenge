@@ -50,13 +50,13 @@ public class SubscriptionService {
 
 	@Cacheable(cacheNames = ("subs"))
 	public List<Subscription> getAllSubscriptions() {
-		log.info("value returned from db");
+		log.debug("value returned from db");
 		return repository.findAll();
 	}
 
 	@Cacheable(cacheNames = "sub", key="#id")
 	public Subscription findById(String id) throws CustomExcpetion {
-		log.info("value returned from db");
+		log.debug("value returned from db");
 		return repository.findById(id).stream().findFirst()
 				.orElseThrow(() -> new CustomExcpetion(CustomExcpetion.ExceptionTypes.ERROR_NOT_FOUND));
 	}
