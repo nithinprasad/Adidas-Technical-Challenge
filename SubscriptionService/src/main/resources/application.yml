@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: SUBSCRIPTION-SERVICE
+server:
+  port: 7777
+email:
+  uri: ${EMAIL_GATEWAY_URL:EMAIL-SERVICE}
+eureka:
+  instance:
+    hostname: ${HOSTNAME:localhost} 
+  client:
+    register-with-eureka: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/    

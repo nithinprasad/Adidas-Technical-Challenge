@@ -1,0 +1,57 @@
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: subscription-service
+          uri: lb://SUBSCRIPTION-SERVICE
+          predicates:
+            - Path=/subscriptions/**
+          metadata:
+            response-timeout: 200
+            connect-timeout: 200
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: subscription-service
+                fallbackuri: forward:/subscriptionFallBack
+        - id: email-service
+          uri: lb://EMAIL-SERVICE
+          predicates:
+            - Path=/email/**
+          metadata:
+            response-timeout: 6000
+            connect-timeout: 200  
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: email-service
+                fallbackuri: forward:/emailFallback
+        - id: eureka-service
+          uri: lb://EUREKA-SERVICE
+          predicates:
+            - Path=/registry/**
+          metadata:
+            response-timeout: 6000
+            connect-timeout: 200  
+          filters:
+            - RewritePath="^/registry", ""
+            - name: CircuitBreaker
+              args:
+                name: eureka-service
+                fallbackuri: forward:/eurekaFallback
+
+eureka:
+  instance:
+    hostname: ${HOSTNAME:localhost} 
+  client:
+    register-with-eureka: true
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/    
+               
+server:
+  port: 8989
