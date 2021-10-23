@@ -183,6 +183,7 @@ Can convert to docker image using
 ./mvnw spring-boot:build-image
 ```
 
+
 * Step 2 : Run via compose file
 
 Run the container using
@@ -224,6 +225,26 @@ Can stop the container using
 ```python
 docker-compose -f docker-compose.yaml down
 ```
+
+## Running via Docker image on docker hub
+
+All images are available in docker hub
+
+* nithinprasad549/adidas-eureka-service:latest
+* nithinprasad549/adidas-public-service:latest
+* nithinprasad549/adidas-email-service:latest
+* nithinprasad549/adidas-subscription-service:latest
+
+Can Start the container using
+```python
+docker-compose -f docker-compose-hub.yaml up -d
+```
+Can Stop  the container using
+```python
+docker-compose -f docker-compose-hub.yaml down
+```
+
+
 ### Eureka Dasboard
 Once the services are up we can verify the same using
 ```python
