@@ -13,6 +13,10 @@
 Api Doucmeation can be found in
 [Documentation!](https://ajz007.stoplight.io/studio/adidas)
 
+## Architecture
+
+![Diagram](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/Architecture.png?raw=true)
+
 ## Service Details
 
 ### Public Service
