@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,12 +26,13 @@ public class RestClient {
 	private RestTemplate restTemplate;
 
 	@Bean
+	@LoadBalanced
 	public static RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 
 	@Value("${email.uri}")
-	private String EMAIL_GATEWAY_URL = "http://localhost:8888/";
+	private String EMAIL_GATEWAY_URL;
 
 	@Async
 	public ResponseEntity<String> notifyEmail(Subscription subscription) {

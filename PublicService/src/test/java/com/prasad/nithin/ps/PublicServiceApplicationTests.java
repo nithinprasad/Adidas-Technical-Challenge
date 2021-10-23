@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.prasad.nithin.ps;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

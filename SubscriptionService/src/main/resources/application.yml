@@ -4,7 +4,7 @@ spring:
 server:
   port: 7777
 email:
-  uri: ${EMAIL_GATEWAY_URL:EMAIL-SERVICE}
+  uri: ${EMAIL_GATEWAY_URL:lb://EMAIL-SERVICE}
 eureka:
   instance:
     hostname: ${HOSTNAME:localhost} 

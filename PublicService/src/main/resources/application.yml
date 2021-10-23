@@ -1,17 +1,28 @@
-
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
 spring:
   application:
     name: GATEWAY-SERVICE
   cloud:
     gateway:
+      httpclient:
+        wiretap: true
+      httpserver:
+        wiretap: true  
       routes:
         - id: subscription-service
           uri: lb://SUBSCRIPTION-SERVICE
           predicates:
             - Path=/subscriptions/**
           metadata:
-            response-timeout: 200
-            connect-timeout: 200
+            response-timeout: 2000
+            connect-timeout: 2000
           filters:
             - name: CircuitBreaker
               args:
@@ -23,21 +34,33 @@ spring:
             - Path=/email/**
           metadata:
             response-timeout: 6000
-            connect-timeout: 200  
+            connect-timeout: 2000  
           filters:
             - name: CircuitBreaker
               args:
                 name: email-service
                 fallbackuri: forward:/emailFallback
-        - id: eureka-service
+        - id: registry-service
           uri: lb://EUREKA-SERVICE
           predicates:
             - Path=/registry/**
           metadata:
-            response-timeout: 6000
-            connect-timeout: 200  
+            response-timeout: 60000
+            connect-timeout: 20000  
           filters:
-            - RewritePath="^/registry", ""
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: registry-service
+                fallbackuri: forward:/eurekaFallback
+        - id: eureka-service
+          uri: lb://EUREKA-SERVICE
+          predicates:
+            - Path=/eureka/**
+          metadata:
+            response-timeout: 60000
+            connect-timeout: 20000  
+          filters:
             - name: CircuitBreaker
               args:
                 name: eureka-service

@@ -70,21 +70,23 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-		return buildResponseEntity(ErrorBody.builder().code(HttpStatus.BAD_REQUEST.toString()).message(ex.getMessage())
-				.field(ex.getCause().toString()).build());
+		return prepareExceptionResponse(ex);
+	}
+
+	private ResponseEntity<Object> prepareExceptionResponse(Exception ex) {
+		return buildResponseEntity(ErrorBody.builder().code(HttpStatus.BAD_REQUEST.toString()).message(Optional.ofNullable(ex.getMessage()).orElse(ex.getLocalizedMessage()))
+				.field(Optional.ofNullable(ex.getCause()).map(Throwable::toString).orElse(ex.toString())).build());
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return buildResponseEntity(ErrorBody.builder().code(HttpStatus.BAD_REQUEST.toString()).message(ex.getMessage())
-				.field(ex.getCause().toString()).build());
+		return prepareExceptionResponse(ex);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handle(Exception ex, WebRequest request) {
-		return buildResponseEntity(ErrorBody.builder().code(HttpStatus.BAD_REQUEST.toString()).message(ex.getMessage())
-				.field(ex.getCause().toString()).build());
+		return prepareExceptionResponse(ex);
 	}
 
 	@ExceptionHandler(CustomExcpetion.class)
