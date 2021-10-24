@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adidas-public-service-deployment
+  labels:
+    app: adidas-public-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adidas-public-service
+  template:
+    metadata:
+      labels:
+        app: adidas-public-service
+    spec:
+      containers:
+      - image: nithinprasad549/adidas-public-service:latest
+        name: adidas-public-service
+        ports:
+        - containerPort: 8989
+        env:
+        - name: EUREKA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: adidas-config
+              key: EUREKA_HOST
+        - name: EUREKA_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: adidas-config
+              key: EUREKA_PORT  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adidas-public-service-service
+spec:
+  type: NodePort
+  selector:
+    app: adidas-public-service
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 8989
+      nodePort: 30000

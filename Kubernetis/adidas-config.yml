@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adidas-config
+data:
+  EUREKA_HOST: adidas-eureka-service
+  EUREKA_PORT: "8761"

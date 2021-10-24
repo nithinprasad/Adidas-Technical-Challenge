@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adidas-eureka-service-deployment
+  labels:
+    app: adidas-eureka-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adidas-eureka-service
+  template:
+    metadata:
+      labels:
+        app: adidas-eureka-service
+    spec:
+      containers:
+      - image: nithinprasad549/adidas-eureka-service:latest
+        name: adidas-eureka-service
+        env:
+        - name: EUREKA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: adidas-config
+              key: EUREKA_HOST
+        - name: EUREKA_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: adidas-config
+              key: EUREKA_PORT  
