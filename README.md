@@ -7,6 +7,8 @@
 * Eureka Dashboard
 * Caching
 * Hiding secure services behind cloud gateway
+* Docker 
+* Kubernetes
 
 ### Repository
 
@@ -19,9 +21,6 @@
 
 Api Doucmeation can be found in
 [Documentation!](https://ajz007.stoplight.io/docs/adidas)
-
-YAML File can be downloaded from
-[Open Api Spec](https://github.com/nithinprasad/Adidas-Technical-Challenge/blob/main/openapi.yaml?raw=true)
 
 ## Architecture
 
@@ -245,6 +244,25 @@ docker-compose -f docker-compose-hub.yaml up -d
 Can Stop  the container using
 ```python
 docker-compose -f docker-compose-hub.yaml down
+```
+
+## Running via Docker image on Kubernetes 
+
+All Kubernetes  related configs has been added under Kubernetes 
+[Path](https://github.com/nithinprasad/Adidas-Technical-Challenge/tree/main/Kubernetes)
+
+Consisit of
+* Config maps
+* Deployment 
+* Services
+
+Can apply the same using
+```python
+kubectl apply -f adidas-config.yml
+kubectl apply -f adidas-public-service-deployment.yaml
+kubectl apply -f adidas-eureka-service-deployment.yaml
+kubectl apply -f adidas-subscription-service-deployment.yaml
+kubectl apply -f adidas-email-service-deployment.yaml
 ```
 
 
