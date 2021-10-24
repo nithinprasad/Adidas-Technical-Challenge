@@ -33,6 +33,41 @@ Implemented using Cloud API Gateway
 
 Spring Cloud Gateway can help. Spring Cloud Gateway allows you to route traffic to your APIs using simple Java™ instructions  or with YAML configuration files . To hide your services, you set up your network so that the only server accessible from the outside is the gateway. The gateway then becomes a gate-keeper, controlling ingress and egress from outside.
 
+For Subscription Service
+
+```python
+        - id: subscription-service
+          uri: lb://SUBSCRIPTION-SERVICE
+          predicates:
+            - Path=/subscriptions/**
+```
+
+For Email Service
+
+```python
+        - id: email-service
+          uri: lb://EMAIL-SERVICE
+          predicates:
+            - Path=/email/**
+```
+
+For Eureka Service
+
+```python
+        - id: registry-service
+          uri: lb://EUREKA-SERVICE
+          predicates:
+            - Path=/registry/**
+         
+        - id: eureka-service
+          uri: lb://EUREKA-SERVICE
+          predicates:
+            - Path=/eureka/**
+```
+
+
+
+
 Default Running on port `8989`
 
 
