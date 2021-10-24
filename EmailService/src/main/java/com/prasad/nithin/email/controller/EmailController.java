@@ -21,7 +21,7 @@ public class EmailController {
 	@PostMapping(value = "notify")
 	public String doEmail(@RequestBody String body) {
 		emailNotifyService.doNotify(body);
-		return "EMail Sent";
+		return "Email Sent succcessfully";
 	}
 	
 }
